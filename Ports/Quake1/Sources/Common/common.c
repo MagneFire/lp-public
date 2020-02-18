@@ -30,7 +30,7 @@
 #include "Networking/net.h"
 #include "Rendering/r_draw.h"
 
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
 
 #include <stdarg.h>
 #include <string.h>

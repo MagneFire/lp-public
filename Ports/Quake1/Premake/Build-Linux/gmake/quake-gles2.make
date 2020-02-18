@@ -7,9 +7,9 @@ ifndef verbose
   SILENT = @
 endif
 
-CC = gcc
-CXX = g++
-AR = ar
+#CC = gcc
+#CXX = g++
+#AR = ar
 
 ifndef RESCOMP
   ifdef WINDRES
@@ -31,7 +31,8 @@ ifeq ($(config),release)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -L../../../../Output/Targets/Linux-x86-32/Release/lib -L. -s
   LDDEPS    +=
-  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lSDL2main -lSDL2 -lX11
+  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lSDL2main -lSDL2 -lwayland-egl
+  # -lX11
   LINKCMD    = $(CC) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -53,7 +54,8 @@ ifeq ($(config),debug)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -L../../../../Output/Targets/Linux-x86-32/Debug/lib -L.
   LDDEPS    +=
-  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lSDL2main -lSDL2 -lX11
+  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lSDL2main -lSDL2 -lwayland-egl
+  # -lX11
   LINKCMD    = $(CC) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

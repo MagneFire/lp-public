@@ -34,7 +34,9 @@ void VID_SetPalette(unsigned char *palette)
 
 void VID_Init(unsigned char *palette)
 {
+	printf("VID_Init\r\n");
   	extern bool IN_processEvent(SDL_Event *event);
+	//if (sdlwInitialize(IN_processEvent, SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK))
 	if (sdlwInitialize(IN_processEvent, SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK))
 		goto on_error;
 	sdlwEnableDefaultEventManagement(false);
@@ -55,6 +57,7 @@ void VID_Init(unsigned char *palette)
 
 	// Set video width, height and flags
 	Uint32 flags = 0; // SDL_WINDOW_RESIZABLE
+	//Uint32 flags =  SDL_WINDOW_RESIZABLE;
 	if (COM_CheckParm("-fullscreen"))
 		flags |= SDL_WINDOW_FULLSCREEN;
 

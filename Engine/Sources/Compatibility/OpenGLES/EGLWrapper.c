@@ -171,7 +171,7 @@ static bool eglwFindConfig(EglwContext *eglw, const EglwConfigInfo *minimalCfgi,
             }
             if (maxQualityFlag)
             {
-                if (eglwIsConfigInfoBetter(&cfgiBest, &cfgi))
+                if (eglwIsConfigInfoBetter(&cfgiBest, &cfgi) && (cfgi.alphaSize == 0))
                 {
                     cfgiBest = cfgi;
                     configBestIndex = ci;
@@ -313,6 +313,11 @@ static EGLNativeWindowType eglwGetNativeWindow()
     nativeWindow=wmInfo.info.win.window;
     #elif defined(__unix__) && defined(SDL_VIDEO_DRIVER_X11)
     nativeWindow=wmInfo.info.x11.window;
+    #else
+    if (nativeWindow) return nativeWindow;
+	int windowWidth, windowHeight;
+	SDL_GetWindowSize(sdlwContext->window, &windowWidth, &windowHeight);
+    nativeWindow = wl_egl_window_create(wmInfo.info.wl.surface, windowWidth, windowHeight);
     #endif
 
     #endif
@@ -392,6 +397,7 @@ bool eglwInitialize(EglwConfigInfo *minimalCfgi, EglwConfigInfo *requestedCfgi, 
     {
         static const EGLint SURFACE_ATTRIBUTES[] = { EGL_NONE };
 		EGLNativeWindowType nativeWindow = eglwGetNativeWindow();
+        printf("nativeWindow %d\r\n", nativeWindow);
 		eglw->surface = eglCreateWindowSurface(eglw->display, eglw->config, nativeWindow, SURFACE_ATTRIBUTES);
 		if (eglw->surface==NULL) {
 			printf("Cannot create a window surface.\n");

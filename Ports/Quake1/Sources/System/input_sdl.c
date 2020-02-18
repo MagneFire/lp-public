@@ -305,6 +305,7 @@ static int IN_TranslateSDLtoQuakeKey(Sint32 keysym)
 
 bool IN_processEvent(SDL_Event *event)
 {   
+	printf("IN_processEvent\r\n");
     switch (event->type)
     {
     default:
@@ -664,16 +665,21 @@ void IN_Init()
 	Cvar_RegisterVariable(&mouse_speed_pitch);
 	Cvar_RegisterVariable(&mouse_speed_yaw);
 
-	if (!SDL_WasInit(SDL_INIT_JOYSTICK))
+	Con_Printf("IN_Init\n");
+
+	/*if (!SDL_WasInit(SDL_INIT_JOYSTICK))
 	{
+		Con_Printf("SDL_WasInit(SDL_INIT_JOYSTICK)\n");
 		if (SDL_Init(SDL_INIT_JOYSTICK) == -1)
 		{
 			Con_Printf("Couldn't init SDL l_joystick: %s.\n", SDL_GetError());
 		}
 		else
-		{
+		{*/
+			Con_Printf("SDL_WasInit(SDL_INIT_JOYSTICK) %d\n", SDL_NumJoysticks());
 			if (SDL_NumJoysticks() > 0)
 			{
+				Con_Printf("SDL_NumJoysticks() %i\n", SDL_NumJoysticks());
 				int n = SDL_NumJoysticks();
 				for (int i = 0; i < n; i++)
 				{
@@ -685,6 +691,8 @@ void IN_Init()
 							if (!l_controller)
 							{
 								Con_Printf("Could not open gamecontroller %i: %s\n", i, SDL_GetError());
+							} else {
+								Con_Printf("Opened gamecontroller %i: %s\n", i);
 							}
 						}
 					}
@@ -701,8 +709,8 @@ void IN_Init()
 					}
 				}
 			}
-		}
-	}
+		/*}
+	}*/
 }
 
 void IN_Shutdown()

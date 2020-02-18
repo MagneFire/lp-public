@@ -94,7 +94,10 @@ bool sdlwInitialize(SdlProcessEventFunction processEvent, Uint32 flags) {
     SDL_LogSetOutputFunction(sdlwLogOutputFunction, NULL);
 //    SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "Test\n");
     
-//    if (SDL_NumJoysticks() > 0) SDL_JoystickOpen(0);
+    //printf("SDL_NumJoysticks(): sdajk %d\r\n", SDL_NumJoysticks());
+    //if (SDL_NumJoysticks() > 0) SDL_JoystickOpen(0);
+    //SDL_JoystickEventState(SDL_ENABLE);
+
     
     return false;
 on_error:
@@ -224,9 +227,11 @@ static void sdlwManageEvent(SdlwContext *sdlw, SDL_Event *event) {
 void sdlwCheckEvents() {
 	SdlwContext *sdlw = sdlwContext;
     if (sdlw == NULL) return;
+    //printf("sdlwCheckEvents\r\n");
     
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
+        printf("SDL_PollEvent\r\n");
         bool eventManaged = false;
 		SdlProcessEventFunction processEvent = sdlw->processEvent;
 		if (processEvent != NULL)
