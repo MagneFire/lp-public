@@ -231,7 +231,7 @@ void sdlwCheckEvents() {
     
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
-        printf("SDL_PollEvent\r\n");
+        //printf("SDL_PollEvent\r\n");
         bool eventManaged = false;
 		SdlProcessEventFunction processEvent = sdlw->processEvent;
 		if (processEvent != NULL)

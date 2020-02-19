@@ -51,6 +51,7 @@ static SDL_GameController *l_controller = NULL;
 static int IN_TranslateSDLtoQuakeKey(Sint32 keysym)
 {
 	int key;
+	printf("KEY: %d\r\n", keysym);
     
     switch (keysym)
     {
@@ -305,7 +306,7 @@ static int IN_TranslateSDLtoQuakeKey(Sint32 keysym)
 
 bool IN_processEvent(SDL_Event *event)
 {   
-	printf("IN_processEvent\r\n");
+	//printf("IN_processEvent\r\n");
     switch (event->type)
     {
     default:
@@ -399,7 +400,23 @@ bool IN_processEvent(SDL_Event *event)
 	case SDL_JOYBUTTONUP:
 	{
 		bool down = (event->type == SDL_JOYBUTTONDOWN);
-		Key_Event(K_JOY1 + event->jbutton.button, down);
+		int key = K_JOY1 + event->jbutton.button;
+		if (event->jbutton.button == 11) {
+			key = K_GAMEPAD_SELECT;
+		}
+		if (event->jbutton.button == 1) {
+			key = K_CTRL;
+		}
+		if (event->jbutton.button == 0) {
+			key = K_DOWNARROW;
+		}
+		if (event->jbutton.button == 3) {
+			key = K_GAMEPAD_START;
+		}
+		if (event->jbutton.button == 4) {
+			key = K_UPARROW;
+		}
+		Key_Event(key, down);
 	}
 	break;
 	case SDL_JOYHATMOTION:
