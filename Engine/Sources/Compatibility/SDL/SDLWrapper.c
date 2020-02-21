@@ -139,11 +139,14 @@ bool sdlwCreateWindow(const char *windowName, int windowWidth, int windowHeight,
         windowHeight = dm.h >> 1;
         #endif
     }
-    sdlw->windowWidth = windowWidth;
-    sdlw->windowHeight = windowHeight;
        
     int windowPos = SDL_WINDOWPOS_CENTERED;
    	if ((sdlw->window=SDL_CreateWindow(windowName, windowPos, windowPos, windowWidth, windowHeight, flags))==NULL) goto on_error;
+
+    SDL_GetWindowSize(sdlwContext->window, &windowWidth, &windowHeight);
+
+    sdlw->windowWidth = windowWidth;
+    sdlw->windowHeight = windowHeight;
 
     return false;
 on_error:
