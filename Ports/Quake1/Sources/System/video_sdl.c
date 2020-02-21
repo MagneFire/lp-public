@@ -20,6 +20,8 @@ unsigned d_8to24table[256];
 #define BASEWIDTH (320)
 #define BASEHEIGHT (240)
 
+double scale = 1;
+
 void VID_SetPalette(unsigned char *palette)
 {
 	for (int i = 0; i < 256; ++i, palette+=3)
@@ -55,9 +57,18 @@ void VID_Init(unsigned char *palette)
 			Sys_Error("VID: Bad window width/height\n");
 	}
 
+	if ((pnum = COM_CheckParm("-scale")))
+	{
+		if (pnum >= com_argc - 1)
+			Sys_Error("VID: -scale <scale>\n");
+		scale = Q_atof(com_argv[pnum + 1]);
+		if (!scale)
+			Sys_Error("VID: Bad window scale\n");
+	}
+
 	// Set video width, height and flags
 	Uint32 flags = 0; // SDL_WINDOW_RESIZABLE
-	//Uint32 flags =  SDL_WINDOW_RESIZABLE;
+
 	if (COM_CheckParm("-fullscreen"))
 		flags |= SDL_WINDOW_FULLSCREEN;
 
@@ -111,9 +122,12 @@ void VID_Shutdown()
 
 void R_beginRendering(int *x, int *y, int *width, int *height)
 {
-	*x = *y = 0;
-	*width = sdlwContext->windowWidth;
-	*height = sdlwContext->windowHeight;
+	*width = sdlwContext->windowWidth * scale;
+	*height = sdlwContext->windowHeight * scale;
+	// Center the window by changing the x/y positions.
+	*x = (sdlwContext->windowWidth - *width)/2;
+	*y = (sdlwContext->windowHeight - *height)/2;
+
 	oglwSetViewport(*x, *y, *width, *height);
 }
 
