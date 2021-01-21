@@ -32,7 +32,7 @@
 
 #include <string.h>
 
-int sb_lines; // scan lines to draw
+static int sb_lines; // scan lines to draw
 
 void M_DrawPic(int x, int y, qpic_t *pic);
 
