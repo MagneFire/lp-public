@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
    
-viddef_t vid; // global video state
+//viddef_t vid; // global video state
 
 unsigned d_8to24table[256];
 
